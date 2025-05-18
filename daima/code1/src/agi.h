@@ -19,12 +19,11 @@
 #include "jtype.h"
 #include <assert.h>
 #include <mqueue.h>
-#include "link.h"
 
 typedef struct AgiMember AgiMember;
 struct AgiMember
 {
-    MemManager mem;
+    MemManager *pMem;
     u8 bOpen;
 };
 

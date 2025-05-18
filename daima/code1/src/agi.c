@@ -12,7 +12,8 @@ AgiMember *AgiOpen(int myId)
     AgiMember *pDemo = (AgiMember*)RawMalloc(sizeof(AgiMember));
     log_a("demo %d",myId);
     pDemo->bOpen = 1;
-    pDemo->mem.pAgi = pDemo;
+    pDemo->pMem = (MemManager*)RawMalloc(sizeof(MemManager));
+    pDemo->pMem->pAgi = pDemo;
     return pDemo;
 }
 
