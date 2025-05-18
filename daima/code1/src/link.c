@@ -7,6 +7,7 @@
 #include "agi.h"
 #include "link.h"
 
+//这个有问题的，传入的应该是pAgi，因为这个函数是给外面用的，而不是内部的独立模块
 void* Malloc2(MemManager* pMem,u32 size)
 {
     void *p = malloc(size);

@@ -14,6 +14,7 @@ struct MemManager
     AgiMember *pAgi;
 };
 
+
 void* Malloc2(MemManager* pMem,u32 size);
 void Free2(MemManager* pMem,void *p);
 
