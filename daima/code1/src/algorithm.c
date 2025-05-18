@@ -11,6 +11,7 @@
 #include <limits.h>
 #include "algorithm.h"
 #include "agi.h"
+#include "link.h"
 
 typedef struct {
     int row, col;
@@ -93,6 +94,7 @@ void Cardiology1(int r, int c)
     Pair oS,oE;
    // u8 aBuf[21];
 
+    //为什么程序崩溃，价格link.h头文件就好了？
     stablePos = (AnsStru*)RawMalloc(sizeof(AnsStru) * c);
 
 //    for(i=0;i<r*c;i++)
