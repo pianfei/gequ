@@ -13,9 +13,6 @@
 #include "algorithm.h"
 #include "agi.h"
 
-//void cardiology1(long r,long c);
-//int cardiology2();
-
 int main(int argc, char *argv[])
 {
     int a;
@@ -31,9 +28,6 @@ int main(int argc, char *argv[])
    // Cardiology1(95,912669);//456335 48 456335 2
     Cardiology1(6666,966);
     Cardiology2(6666,966);
-
-    //cardiology1(7,3);
-    //cardiology2();
 
     pDemo = AgiOpen(0);
     DemoTask1(pDemo);

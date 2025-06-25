@@ -24,14 +24,14 @@ typedef struct {
     int iterationTimes;
 } AnsStru;
 
-// 计算位置加上v后的新位置
-void rcAdd(Pair *pStart, Pair *pOut, int c) {
-    int v;
+//第2个参数是观众指定的牌，在魔术师不断收牌重排的过程中位置会不断变化，最后稳定下来
+void rcAdd(Pair *pStart, Pair *pSim, int c) {
+    int lastRow;
 
-    v = pOut->row;//初始时v=start
+    lastRow = pSim->row;//记下上一次pSim的row
 
-    pOut->row = pStart->row;
-    pOut->col = pStart->col;
+    pSim->row = pStart->row;
+    pSim->col = pStart->col;
 
     //第一次增量是start+row/c+(1')-row = Δ
     //第二次增量是start+(row+Δ)/c+(1'')-(start+row/c+(1'))
@@ -50,12 +50,11 @@ void rcAdd(Pair *pStart, Pair *pOut, int c) {
     //所以这张牌所在行<c*r/c = r,应该这样证明
 
     //这次row = start + 上次row/c
-    pOut->row += v/c;//为什么这里加了，每数c个相当于把这张牌往下移动一行
-    v %= c;
-    pOut->col += v;
-    if (pOut->col>=c) {
-        pOut->col %= c;
-        pOut->row += 1;//这里还要+1，这里加的是v取整后剩下的，看剩下的是不是能填充满这张牌所在行的右边空位
+    pSim->row += lastRow/c;//为什么这里加了，每数c个相当于把这张牌往下移动一行
+    pSim->col += lastRow%c;
+    if (pSim->col>=c) {
+        pSim->col %= c;
+        pSim->row += 1;//这里还要+1，这里加的是v取整后剩下的，看剩下的是不是能填充满这张牌所在行的右边空位
     }
 
 }
@@ -67,7 +66,7 @@ void pthStart(Pair *pStart,long p, long r, long c) {
     //即第14/3=4行，第14%3=2列
     pStart->row = (r * p) / c;
     pStart->col = (r * p) % c;
-    pStart->k = p;
+    pStart->k = p;//这个k现在没用到吧？
 }
 
 // 计算距离中心点位置的最小距离
@@ -106,7 +105,8 @@ void Cardiology1(int r, int c)
     {
         iterationTime = 0;
 
-        //当c=1时，只有一列，重排不变，start必然是0，0
+        //当c=1时，此时j只能取0，只有一列，重排不变，start必然是0，0
+        //start指的是这张牌所在列的第一张牌的位置，这张牌前面收了j列张牌（每列有r张）
         pthStart(&start,j, r, c);
 
         //为什么要选择开头和结尾这两个数字模拟，原题似乎要求把这一列中的所有数字都模拟一遍
@@ -122,6 +122,9 @@ void Cardiology1(int r, int c)
             oS = first;
             oE = endst;
 
+            //j指的是第p列被收走，每次while循环都是前面收走了p列按行重排
+            //所以第p列的第一张牌，即start的位置是不变的，被收走这张牌在这一列中属于第几行
+            //决定了重排时将会
             rcAdd(&start, &first, c);
             rcAdd(&start, &endst, c);
 
