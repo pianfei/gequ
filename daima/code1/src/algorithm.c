@@ -30,9 +30,6 @@ void rcAdd(Pair *pStart, Pair *pSim, int c) {
 
     lastRow = pSim->row;//记下上一次pSim的row
 
-    pSim->row = pStart->row;
-    pSim->col = pStart->col;
-
     //第一次增量是start+row/c+(1')-row = Δ
     //第二次增量是start+(row+Δ)/c+(1'')-(start+row/c+(1'))
 
@@ -50,8 +47,8 @@ void rcAdd(Pair *pStart, Pair *pSim, int c) {
     //所以这张牌所在行<c*r/c = r,应该这样证明
 
     //这次row = start + 上次row/c
-    pSim->row += lastRow/c;//每数c个相当于把这张牌往下移动一行
-    pSim->col += lastRow%c;//每数c个相当于这张牌的位置不变，看还多出来几个
+    pSim->row = pStart->row+lastRow/c;//每数c个相当于把这张牌往下移动一行
+    pSim->col = pStart->col+lastRow%c;//每数c个相当于这张牌的位置不变，看还多出来几个
     if (pSim->col>=c) {
         pSim->col %= c;
         pSim->row += 1;//这里还要+1，这里加的是lastRow取整后剩下的，看剩下的是不是能填充满这张牌所在行的右边空位
