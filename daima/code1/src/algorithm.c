@@ -28,8 +28,6 @@ typedef struct {
 void rcAdd(Pair *pStart, Pair *pSim, int c) {
     int lastRow;
 
-    lastRow = pSim->row;//记下上一次pSim的row
-
     //第一次增量是start+row/c+(1')-row = Δ
     //第二次增量是start+(row+Δ)/c+(1'')-(start+row/c+(1'))
 
@@ -46,7 +44,10 @@ void rcAdd(Pair *pStart, Pair *pSim, int c) {
     //一开始选定牌所在的row<r,重排时前面最多放(c-1)*r+row<c*r
     //所以这张牌所在行<c*r/c = r,应该这样证明
 
-    //这次row = start + 上次row/c
+    lastRow = pSim->row;//记下上一次pSim的row
+    //start <= (c-1*r)/c
+    //这次row = start + 上次row/c = (start*c+row)/c < (c-1*r)/c + r/c = r
+    //注意到lastRow是上次pSim->row，初始<r，上一次小于r，更新后<r，那就一直<r,不可能取到等号
     pSim->row = pStart->row+lastRow/c;//每数c个相当于把这张牌往下移动一行
     pSim->col = pStart->col+lastRow%c;//每数c个相当于这张牌的位置不变，看还多出来几个
     if (pSim->col>=c) {
