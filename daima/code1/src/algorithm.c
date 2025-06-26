@@ -83,8 +83,7 @@ long calDist(Pair rc, long r, long c) {
 void Cardiology1(int r, int c)
 {
     AnsStru* stablePos;
-    Pair first = {0, 0};
-    Pair endst = {r - 1, c - 1};
+    Pair aEle[2];
     Pair start = {0, 0};
     int j,i;
     int iterationTime = 0;
@@ -109,26 +108,26 @@ void Cardiology1(int r, int c)
 
         //为什么要选择开头和结尾这两个数字模拟，原题似乎要求把这一列中的所有数字都模拟一遍
         //只用一个数字模拟行不行
-        first.col = 0;
-        first.row = 0;
-        endst.row = r-1;
-        endst.col = c-1;
+        aEle[0].col = 0;
+        aEle[0].row = 0;
+        aEle[1].row = r-1;
+        aEle[1].col = c-1;
 
       //  log_a("restart:%d %d",start.row,start.col);
 
         while (1) {
-            oS = first;
-            oE = endst;
+            oS = aEle[0];
+            oE = aEle[1];
 
             //j指的是第p列被收走，每次while循环都是前面收走了p列按行重排
             //所以第p列的第一张牌，即start的位置是不变的，被收走这张牌在这一列中属于第几行
             //决定了重排时将会
-            rcAdd(&start, &first, c);
-            rcAdd(&start, &endst, c);
+            rcAdd(&start, &aEle[0], c);
+            rcAdd(&start, &aEle[1], c);
 
 //            if(j==2){
 //                if(iterationTime==0){
-//                    for(i=0;i<first.row*c+first.col;i++)
+//                    for(i=0;i<aEle[0].row*c+aEle[0].col;i++)
 //                    {
 //                        log_b("%d ",aBuf[i]);
 //                        if(i%c==c-1){
@@ -136,8 +135,8 @@ void Cardiology1(int r, int c)
 //                        }
 //                    }
 //                }
-//                log_a("start:%d %d",first.row,first.col);
-//                log_a("end:%d %d",endst.row,endst.col);
+//                log_a("start:%d %d",aEle[0].row,aEle[0].col);
+//                log_a("end:%d %d",aEle[1].row,aEle[1].col);
 //            }
 
             //测了一下只用一个数字模拟，选择开头和结尾，打印不一样，但是最后结果是对的
@@ -146,15 +145,15 @@ void Cardiology1(int r, int c)
             //的所有数字模拟，有些迭代的快有些迭代的慢，选择一个最大的。
             //但是我们的目的不是在做算法竞赛题，我们不需要揣测出题人的意思，我们自己就是出题人
             //我们应该自行判断哪一种理解更有价值
-//            if (oE.row == endst.row && oE.col == endst.col) {
+//            if (oE.row == aEle[1].row && oE.col == aEle[1].col) {
 //                break;
 //            }
-//            if (oS.row == first.row && oS.col == first.col) {
+//            if (oS.row == aEle[0].row && oS.col == aEle[0].col) {
 //                break;
 //            }
 
-            if (oS.row == first.row && oS.col == first.col &&
-                oE.row == endst.row && oE.col == endst.col)
+            if (oS.row == aEle[0].row && oS.col == aEle[0].col &&
+                oE.row == aEle[1].row && oE.col == aEle[1].col)
             {
                 //6 2不是在中央啊
              //   log_a("");//在6 2结束循环？
@@ -163,17 +162,17 @@ void Cardiology1(int r, int c)
             //最大迭代次数为什么只需加个endst判断就可以了，而不用把这列的数字都模拟一遍
             iterationTime++;
         }
-        if (first.row == endst.row && first.col == endst.col) {
+        if (aEle[0].row == aEle[1].row && aEle[0].col == aEle[1].col) {
             //记录first最后稳定的坐标，感觉是对于不同的j，first不一定收敛到中央
             //出题人是想让你找出收敛到中央的那个j
             //看错了，他这个判断是first和endst收敛到同一个坐标
-            stablePos[j].rc = first;
-          //  log_a("j %d end same %d %d",j,first.row,first.col);
+            stablePos[j].rc = aEle[0];
+          //  log_a("j %d end same %d %d",j,aEle[0].row,aEle[0].col);
         } else {
             stablePos[j].rc.row = -1;
             stablePos[j].rc.col = -1;
             log_a("j %d not same %d %d %d %d",j,
-                    first.row,first.col,endst.row,endst.col);
+                    aEle[0].row,aEle[0].col,aEle[1].row,aEle[1].col);
         }
         stablePos[j].iterationTimes = iterationTime;
     }
