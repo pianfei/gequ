@@ -108,6 +108,7 @@ void Cardiology1(int r, int c)
 
         //为什么要选择开头和结尾这两个数字模拟，原题似乎要求把这一列中的所有数字都模拟一遍
         //只用一个数字模拟行不行
+        //总共有0~r*c张牌可以模拟，每张牌初始位置都满足row<r
         aEle[0].col = 0;
         aEle[0].row = 0;
         aEle[1].row = r-1;
@@ -267,4 +268,3 @@ int Cardiology2(int R, int C) {
 
     return 0;
 }
-

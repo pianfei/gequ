@@ -15,15 +15,15 @@ struct MemManager
 };
 
 
-void* Malloc2(MemManager* pMem,u32 size);
-void Free2(MemManager* pMem,void *p);
+void* Malloc2(AgiMember *pDemo,u32 size);
+void Free2(AgiMember *pDemo,void *p);
 
-void* Realloc2(MemManager* pMem,void *p,u32 size,u32 old_size);
+void* Realloc2(AgiMember *pDemo,void *p,u32 size,u32 old_size);
 void* RawMalloc(u32 size);
 void RawFree(void *p);
-void* MallocX(MemManager* pMem,u32 size);
+void* MallocX(AgiMember *pDemo,u32 size);
 
-void* Malloc1(MemManager* pMem,u32 size);
-void Free1(MemManager* pMem,void *p);
+void* Malloc1(AgiMember *pDemo,u32 size);
+void Free1(AgiMember *pDemo,void *p);
 
 #endif /* LINK_H_ */
