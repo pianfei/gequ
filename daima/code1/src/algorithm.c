@@ -87,16 +87,13 @@ void Cardiology1(int r, int c)
     Pair start = {0, 0};
     int j,i;
     int iterationTime = 0;
-    Pair oS,oE;
+    Pair aPre[2];
    // u8 aBuf[21];
 
     //为什么程序崩溃，加个link.h头文件就好了？
     stablePos = (AnsStru*)RawMalloc(sizeof(AnsStru) * c);
 
-//    for(i=0;i<r*c;i++)
-//    {
-//        aBuf[i] = i;
-//    }
+
 
     for(j=0;j<c;j++)
     {
@@ -109,52 +106,25 @@ void Cardiology1(int r, int c)
         //为什么要选择开头和结尾这两个数字模拟，原题似乎要求把这一列中的所有数字都模拟一遍
         //只用一个数字模拟行不行
         //总共有0~r*c张牌可以模拟，每张牌初始位置都满足row<r
-        aEle[0].col = 0;
         aEle[0].row = 0;
+        aEle[0].col = 0;
         aEle[1].row = r-1;
         aEle[1].col = c-1;
 
       //  log_a("restart:%d %d",start.row,start.col);
 
         while (1) {
-            oS = aEle[0];
-            oE = aEle[1];
+            aPre[0] = aEle[0];
+            aPre[1] = aEle[1];
 
             //j指的是第p列被收走，每次while循环都是前面收走了p列按行重排
             //所以第p列的第一张牌，即start的位置是不变的，被收走这张牌在这一列中属于第几行
-            //决定了重排时将会
+            //决定了重排时相对start的偏移
             rcAdd(&start, &aEle[0], c);
             rcAdd(&start, &aEle[1], c);
 
-//            if(j==2){
-//                if(iterationTime==0){
-//                    for(i=0;i<aEle[0].row*c+aEle[0].col;i++)
-//                    {
-//                        log_b("%d ",aBuf[i]);
-//                        if(i%c==c-1){
-//                            log_a("");
-//                        }
-//                    }
-//                }
-//                log_a("start:%d %d",aEle[0].row,aEle[0].col);
-//                log_a("end:%d %d",aEle[1].row,aEle[1].col);
-//            }
-
-            //测了一下只用一个数字模拟，选择开头和结尾，打印不一样，但是最后结果是对的
-            //如何理解s表示任意牌达到该稳定位置所需的最大迭代次数。
-            //看代码似乎这个s是在j的遍历范畴之下，但字面意思似乎又指的是对这一列中
-            //的所有数字模拟，有些迭代的快有些迭代的慢，选择一个最大的。
-            //但是我们的目的不是在做算法竞赛题，我们不需要揣测出题人的意思，我们自己就是出题人
-            //我们应该自行判断哪一种理解更有价值
-//            if (oE.row == aEle[1].row && oE.col == aEle[1].col) {
-//                break;
-//            }
-//            if (oS.row == aEle[0].row && oS.col == aEle[0].col) {
-//                break;
-//            }
-
-            if (oS.row == aEle[0].row && oS.col == aEle[0].col &&
-                oE.row == aEle[1].row && oE.col == aEle[1].col)
+            if (aPre[0].row == aEle[0].row && aPre[0].col == aEle[0].col &&
+                aPre[1].row == aEle[1].row && aPre[1].col == aEle[1].col)
             {
                 //6 2不是在中央啊
              //   log_a("");//在6 2结束循环？
